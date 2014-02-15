@@ -1,0 +1,9 @@
+$def with (tickets)
+<h3>Create Ticket</h3>
+<form method="post" action="add">
+<p><input type="text" name="title" /> <input type="submit" value="Add" /></p>
+</form>
+<ul>
+$for ticket in tickets:
+	<li id="t$ticket.id">$ticket.title</li>
+</ul>

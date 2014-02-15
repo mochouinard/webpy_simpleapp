@@ -1,0 +1,15 @@
+$def with (content)
+<!DOCTYPE html>
+<html>
+<body>
+<p>
+
+$if session.email != "":
+	Logged as : $:session.email <a href="/auth/logout">Logout</a>
+$else:
+	<a href="/auth/login">Login</a> / <a href="/auth/create">Register</a>
+<p>
+<h1>Testing</h1>
+$:content
+</body>
+</html>

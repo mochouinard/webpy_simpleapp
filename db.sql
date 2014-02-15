@@ -1,0 +1,26 @@
+BEGIN TRANSACTION;
+DROP TABLE tickets;
+CREATE TABLE tickets (
+id INTEGER PRIMARY KEY,
+title text,
+ts_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE users;
+CREATE TABLE users (
+id INTEGER PRIMARY KEY,
+email text UNIQUE,
+password text,
+status text DEFAULT 'VERIFICATION_REQUIRED',
+ts_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE auth_tokens;
+CREATE TABLE auth_tokens (
+id INTEGER PRIMARY KEY,
+email text,
+key  text,
+ts_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+COMMIT;
+

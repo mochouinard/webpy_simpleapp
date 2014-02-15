@@ -1,0 +1,7 @@
+$def with(form)
+<h3>Login</h3>
+<form method="post" action="/auth/login">
+$if not form.valid: <p class="error">Try again:</p>
+$:form.render()
+</form>
+
