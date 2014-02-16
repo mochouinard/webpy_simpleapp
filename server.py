@@ -54,7 +54,7 @@ vuser_exist = form.Validator('Username already exist. <a href="/auth/login">Clic
 vuser_notexist = form.Validator('Username doesn\'t exist.', lambda u: u is not None and model.get_user(db,u.email) is not None)
 vuser_auth = form.Validator('Invalid password', lambda u: u is not None and model.auth_user(db,u.email,u.password) is not None)
 
-vuser_verified = form.Validator('Account not validated TODO Link to get a new auth key', lambda u: u is not None and model.get_user(db,u.email).status == 'VERIFIED')
+vuser_verified = form.Validator('Account not validated. <a href="/auth/authkey">click here</a> to get a new validation key.', lambda u: u is not None and model.get_user(db,u.email).status == 'VERIFIED')
 
 vuser_notverified = form.Validator('Account is not waiting to be verified', lambda u: u is not None and model.get_user(db,u.email).status == 'VERIFICATION_REQUIRED')
 
@@ -101,7 +101,7 @@ class auth:
 			return render.auth_login_get(f)
 		elif rest == 'create':
 			f = register_form()
-			return render.auth_create_get(f,"")
+			return render.auth_create_get(f)
 		elif rest == 'authkey':
                         f = authkey_form()
 			i = web.input(key='')
@@ -131,9 +131,7 @@ class auth:
 		elif rest == 'create':
 			f = register_form()
 			if not f.validates():
-				note = f.note
-				f.note = ""
-				return render.auth_create_get(f,note)
+				return render.auth_create_get(f)
 
 			i = web.input()
 			try:	
