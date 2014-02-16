@@ -1,6 +1,9 @@
-$def with(form)
+$def with(form,note)
 <h3>Create Account</h3>
 <form method="post" action="/auth/create">
+$if note:
+	<strong class="wrong">$:note</strong>
+
 $:form.render()
 </form>
 

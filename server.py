@@ -101,13 +101,20 @@ class auth:
 			return render.auth_login_get(f)
 		elif rest == 'create':
 			f = register_form()
-			return render.auth_create_get(f)
+			return render.auth_create_get(f,"")
 		elif rest == 'authkey':
                         f = authkey_form()
 			i = web.input(key='')
 			if i.key != "":
 				res = model.check_auth_string(db,i.key)
-				return res
+				if res == 'ALREADY_VERIFIED':
+					return render.auth_authkey_res_ALREADY_VERIFIED()
+				elif res == 'VERIFIED':
+					return render.auth_authkey_res_VERIFIED()
+				elif res == 'KEY_INVALID':
+					return render.auth_authkey_res_KEY_INVALID()
+				else:
+					return web.internalerror("Invalid response")
                         return render.auth_authkey_get(f)
 
 	        return "TODO"
@@ -124,7 +131,9 @@ class auth:
 		elif rest == 'create':
 			f = register_form()
 			if not f.validates():
-				return render.auth_create_get(f)
+				note = f.note
+				f.note = ""
+				return render.auth_create_get(f,note)
 
 			i = web.input()
 			try:	
@@ -139,6 +148,7 @@ class auth:
 			f = authkey_form()
 			if not f.validates():
 				return render.auth_authkey_get(f)
+
 			i = web.input()
 			model.send_auth_string(db,i.email)
 			return render.auth_authkey_post(i.email)

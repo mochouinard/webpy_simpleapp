@@ -1,0 +1,6 @@
+sessions
+web
+webpy
+sample.db
+*.pyc
+local.ini

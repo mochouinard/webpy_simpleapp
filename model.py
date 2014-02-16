@@ -20,7 +20,7 @@ def check_auth_string(db,key):
 			return "ALREADY_VERIFIED"
 		return "VERIFIED"
 	except IndexError:
-		return "KEY_NOTFOUND"
+		return "KEY_INVALID"
 
 def get_user(db,email):
 	try:
