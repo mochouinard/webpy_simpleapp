@@ -1,0 +1,62 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+<script>
+var globalgrid;
+function loadgrid()
+{
+  $.ajax({
+    type: 'GET',
+    dataType: 'xml',
+    url: '/ticket/',
+    contentType: "text/xml",
+    success: function(xml)
+    {
+        var count = 0;
+        globalgrid = xml;  
+
+      // remove all data - but the headers!
+      $("#gridtable tbody").find("tr").remove();
+
+      if( ! $(xml).find('ticket'))
+      {
+           $('#errormsg').html('Sorry, <strong>no</strong> rows returned!');
+           return;
+      } else {
+        $(xml).find('ticket').each(function(){
+                var id = $(this).attr('id');
+                var txt = $(this).text();
+                globalgrid = id;
+                
+                $('#gridtable > tbody:last').append('<tr><td>' + id + '</td><td>' + txt + '</tr>');
+
+        });     
+        
+      }
+    },
+    error: function(data, errorText)
+    {
+      $("#errormsg").html(errorText).show();
+    }
+  });                     
+}   
+$( document ).ready( loadgrid )
+</script>
+<h3>List of tickets</h3>
+<table id="gridtable" border="1">
+<thead>
+<tr>
+<th>id</th>
+<th>Title</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<div id="errormsg"></div>
+<p>
+<a href="javascript:loadgrid()">Refresh</a>
+</p>
+</body>

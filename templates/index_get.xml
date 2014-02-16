@@ -1,0 +1,5 @@
+$def with (tickets)
+<tickets>
+$for ticket in tickets:
+	<ticket id="$ticket.id">$ticket.title</ticket>
+</tickets>
